@@ -2,7 +2,8 @@ version: '1.0'
 stages:
   - checkout
   - package
-  - test  
+  - test
+  - upload  
 steps:
   main_clone:
     title: Cloning main repository...
@@ -26,3 +27,9 @@ steps:
     commands: 
       - pip install pytest
       - pytest
+  MyPushStep:
+    title: Pushing to Docker Registry
+    type: push
+    stage: upload
+    tag: '${{CF_BRANCH}}'
+    candidate: '${{MyAppDockerImage}}'
